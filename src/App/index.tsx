@@ -89,7 +89,7 @@ const App: React.FC = () => {
     <Screen>
       {![GAME_STATE.MENU, GAME_STATE.HIGH_SCORES].includes(gameState) && (
         <div className='flex flex-col gap-y-2'>
-          <h1>Level: {level + 1} of {levels.length}</h1>
+          <h1>Round: {level + 1} of {levels.length}</h1>
           <h2>Difficulty: {difficultyLabelMap.get(levels[level])}</h2>
           <h2>Current Score: {showNumber(score)}</h2>
         </div>
