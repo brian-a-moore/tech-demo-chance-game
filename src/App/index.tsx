@@ -4,6 +4,7 @@ import HighScores from "../Screens/HighScores";
 import Screen from "../components/Screen";
 import { levels } from "../constants";
 import { GAME_STATE } from "../constants/enums";
+import { difficultyLabelMap } from "../constants/maps";
 import { saveScore, showNumber } from "../utils";
 
 export type RoundState = {
@@ -113,6 +114,7 @@ const App: React.FC = () => {
               <tr>
                 <th>Player</th>
                 <th>Round</th>
+                <th>Difficulty</th>
                 <th>Total Score</th>
               </tr>
             </thead>
@@ -120,6 +122,7 @@ const App: React.FC = () => {
               <tr>
                 <td>{currentPlayer}</td>
                 <td>{level + 1}</td>
+                <td>{difficultyLabelMap.get(levels[level])}</td>
                 <td>{showNumber(
               roundState && roundState?.selectedValue !== "X"
                 ? score +
