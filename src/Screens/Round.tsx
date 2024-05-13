@@ -20,7 +20,7 @@ const RoundScreen: React.FC<Props> = ({ difficulty, setRoundState }) => {
   useEffect(() => {
     const audio = new Audio('../../public/round.mp3');
     const audio2 = new Audio('../../public/choice_made.mp3');
-    audio2.volume = 0.4;
+    audio2.volume = 0.6;
 
     if(!isRevealed) {
       audio.loop = true;
