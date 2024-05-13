@@ -1,17 +1,16 @@
-import React, { useEffect, useMemo } from 'react';
-import { EvaluatingScreen, MenuScreen, RoundScreen } from '../Screens';
-import HighScores from '../Screens/HighScores';
-import Screen from '../components/Screen';
-import { levels } from '../constants';
-import { GAME_STATE } from '../constants/enums';
-import { difficultyLabelMap } from '../constants/maps';
-import { saveScore, showNumber } from '../utils';
+import React, { useEffect, useMemo } from "react";
+import { EvaluatingScreen, MenuScreen, RoundScreen } from "../Screens";
+import HighScores from "../Screens/HighScores";
+import Screen from "../components/Screen";
+import { levels } from "../constants";
+import { GAME_STATE } from "../constants/enums";
+import { saveScore, showNumber } from "../utils";
 
 export type RoundState = {
   selectedValue: string | number;
   multiplier: number | null;
   buttons: (string | number)[];
-}
+};
 
 const App: React.FC = () => {
   const [gameState, setGameState] = React.useState(GAME_STATE.MENU);
@@ -24,7 +23,7 @@ const App: React.FC = () => {
   useEffect(() => {
     audio.loop = true;
 
-    if(![GAME_STATE.MENU, GAME_STATE.HIGH_SCORES].includes(gameState)) {
+    if (![GAME_STATE.MENU, GAME_STATE.HIGH_SCORES].includes(gameState)) {
       audio.pause();
     } else {
       audio.play();
@@ -36,33 +35,52 @@ const App: React.FC = () => {
   }, [audio, gameState]);
 
   const _showScreen = () => {
-    switch(gameState) {
+    switch (gameState) {
       case GAME_STATE.HIGH_SCORES:
-          return <HighScores goBack={() => setGameState(GAME_STATE.MENU)} />;
+        return <HighScores goBack={() => setGameState(GAME_STATE.MENU)} />;
       case GAME_STATE.MENU:
-          return <MenuScreen startGame={_startGame} seeHighScores={_seeHighScores} setCurrentPlayer={_setCurrentPlayer} />;
+        return (
+          <MenuScreen
+            startGame={_startGame}
+            seeHighScores={_seeHighScores}
+            setCurrentPlayer={_setCurrentPlayer}
+          />
+        );
       case GAME_STATE.PLAY_ROUND:
-          return <RoundScreen difficulty={levels[level]} setRoundState={_setRoundState} />;
+        return (
+          <RoundScreen
+            difficulty={levels[level]}
+            setRoundState={_setRoundState}
+          />
+        );
       case GAME_STATE.EVALUATING:
-          return <EvaluatingScreen lastLevel={level === levels.length - 1} roundState={roundState as RoundState} nextLevel={_nextLevel} gameOver={_gameOver} />;
+        return (
+          <EvaluatingScreen
+            lastLevel={level === levels.length - 1}
+            roundState={roundState as RoundState}
+            nextLevel={_nextLevel}
+            gameOver={_gameOver}
+          />
+        );
       default:
         return null;
     }
-  }
+  };
 
   const _startGame = () => {
-    setGameState(GAME_STATE.PLAY_ROUND)
-  }
+    setGameState(GAME_STATE.PLAY_ROUND);
+  };
 
   const _seeHighScores = () => {
     setGameState(GAME_STATE.HIGH_SCORES);
-  }
+  };
 
   const _nextLevel = (score: number) => {
-    setLevel(prevState => prevState + 1);
-    setScore(prevState => prevState + score);
+    setRoundState(undefined);
+    setLevel((prevState) => prevState + 1);
+    setScore((prevState) => prevState + score);
     setGameState(GAME_STATE.PLAY_ROUND);
-  }
+  };
 
   const _setRoundState = (roundState: RoundState) => {
     setRoundState(roundState);
@@ -70,7 +88,7 @@ const App: React.FC = () => {
   };
 
   const _gameOver = (incomingScore: number | undefined) => {
-    if(incomingScore) {
+    if (incomingScore) {
       saveScore(currentPlayer as string, score + incomingScore);
     } else {
       saveScore(currentPlayer as string, score * 0.5);
@@ -79,26 +97,44 @@ const App: React.FC = () => {
     setScore(0);
     setLevel(0);
     setRoundState(undefined);
-  }
+  };
 
   const _setCurrentPlayer = (initials: string) => {
     setCurrentPlayer(initials);
-  }
+  };
 
   return (
     <Screen>
       {![GAME_STATE.MENU, GAME_STATE.HIGH_SCORES].includes(gameState) && (
-        <div className='flex flex-col gap-y-2'>
-          <h1>Round: {level + 1} of {levels.length}</h1>
-          <h2>Difficulty: {difficultyLabelMap.get(levels[level])}</h2>
-          <h2>Current Score: {showNumber(score)}</h2>
+        <div className="flex flex-col gap-y-2 w-full max-w-[690px]">
+          <table className="bg-zinc-600 rounded-lg shadow-lg">
+            <thead>
+              <tr>
+                <th>Player</th>
+                <th>Round</th>
+                <th>Score</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{currentPlayer}</td>
+                <td>{level + 1}</td>
+                <td>{showNumber(
+              roundState && roundState?.selectedValue !== "X"
+                ? score +
+                    (roundState?.selectedValue as number) * (roundState?.multiplier || 1)
+                : score
+            )}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       )}
-      <div className='w-full max-w-[690px] bg-zinc-700 p-4 rounded-lg shadow-lg'>
+      <div className="w-full max-w-[690px] bg-zinc-700 p-4 rounded-lg shadow-lg">
         {_showScreen()}
       </div>
     </Screen>
-  )
-}
+  );
+};
 
-export default App
+export default App;

@@ -63,7 +63,7 @@ const EvaluatingScreen: React.FC<Props> = ({
         <>
           <h2>Round Score</h2>
           <p className="text-2xl font-bold mb-4">{showNumber(score)}</p>
-          <p className="text-center text-yellow-400 mt-[-1rem]">
+          <p className="bg-teal-600 px-4 py-2 rounded-md shadow-md mt-[-1rem]">
             Cash out now to keep all your winnings <br /> or continue and risk
             half for higher rewards!
           </p>
