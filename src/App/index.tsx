@@ -56,6 +56,7 @@ const App: React.FC = () => {
       case GAME_STATE.EVALUATING:
         return (
           <EvaluatingScreen
+            score={score}
             lastLevel={level === levels.length - 1}
             roundState={roundState as RoundState}
             nextLevel={_nextLevel}
@@ -112,7 +113,7 @@ const App: React.FC = () => {
               <tr>
                 <th>Player</th>
                 <th>Round</th>
-                <th>Score</th>
+                <th>Total Score</th>
               </tr>
             </thead>
             <tbody>

@@ -4,6 +4,7 @@ import { Button } from "../components/Button";
 import { getScore, showNumber } from "../utils";
 
 type Props = {
+  score: number;
   lastLevel: boolean;
   roundState: RoundState;
   nextLevel: (score: number) => void;
@@ -11,13 +12,14 @@ type Props = {
 };
 
 const EvaluatingScreen: React.FC<Props> = ({
+  score,
   lastLevel,
   roundState,
   nextLevel,
   gameOver,
 }) => {
   const { selectedValue, multiplier } = roundState;
-  const score = getScore(selectedValue as number, multiplier);
+  const roundScore = getScore(selectedValue as number, multiplier);
 
   useEffect(() => {
     const audio = new Audio("../../public/evaluating.mp3");
@@ -34,7 +36,7 @@ const EvaluatingScreen: React.FC<Props> = ({
   useEffect(() => {
     if (selectedValue !== "X") {
       timer.current = setTimeout(() => {
-        nextLevel(score);
+        nextLevel(roundScore);
       }, 10000);
     }
 
@@ -43,11 +45,11 @@ const EvaluatingScreen: React.FC<Props> = ({
         clearInterval(timer.current);
       }
     };
-  }, [selectedValue, nextLevel, score, timer]);
+  }, [selectedValue, nextLevel, roundScore, timer]);
 
   const _bankAndQuit = () => {
     if (timer.current) clearTimeout(timer.current);
-    gameOver(score);
+    gameOver(roundScore);
   };
 
   return (
@@ -62,19 +64,19 @@ const EvaluatingScreen: React.FC<Props> = ({
       {selectedValue !== "X" ? (
         <>
           <h2>Round Score</h2>
-          <p className="text-2xl font-bold mb-4">{showNumber(score)}</p>
+          <p className="text-2xl font-bold mb-4">{showNumber(roundScore)}</p>
           <p className="bg-teal-600 px-4 py-2 rounded-md shadow-md mt-[-1rem]">
             Cash out now to keep all your winnings <br /> or continue and risk
             half for higher rewards!
           </p>
         </>
       ) : (
-        <p>Your final score is 50% of your current score.</p>
+        <p>You lost half of your current score, your final score is: <span className="font-bold font-mono">{showNumber(score / 2)}</span></p>
       )}
       <hr />
       {selectedValue === "X" ? (
         <Button variant="destructive" onClick={() => gameOver(undefined)}>
-          Try Again
+          End Game
         </Button>
       ) : (
         <div
@@ -110,5 +112,5 @@ const CountdownTimer = () => {
     };
   }, []);
 
-  return <p>Next Round begins in {countdown} second(s)</p>;
+  return <p>Next round begins in {countdown} second(s)</p>;
 };
