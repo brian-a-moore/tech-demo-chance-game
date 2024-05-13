@@ -2,6 +2,12 @@
 
 This is a simple yet engaging game I created during my leisure time. It's not designed to showcase any specific skill, but it's built using Vite, React, Typescript, and Tailwind. I also composed the music for it.
 
+## Run the Game
+
+In the root directory, run the following:
+- `npm install` to install the dependencies
+- `npm run dev` to start the application
+
 ## How to Play
 
 "What Will You Risk?" is a game purely based on chance and your willingness to take risks. In each round, you're presented with cards ranging from two to twenty. Each card holds a random value within a certain range, determined by the difficulty level. A card could also contain a bomb. If you click on a bomb, your game ends, and you retain 50% of your current score. If you click on a value, that value is added to your current score. If there's a "Bonus", your score is multiplied by the bonus. Each round, there is a 50% chance you get a bonus and the bonus will be a random value within a range that increases with the difficulty.
@@ -11,4 +17,3 @@ As you progress through the rounds, the game becomes riskier. The point values a
 The game consists of 30 rounds in total.
 
 At the end of the game, if you have a top ten all-time score, it will be saved with the others in local storage on your browser.
-
