@@ -7,6 +7,8 @@ type Props = {
   score: number;
   lastLevel: boolean;
   roundState: RoundState;
+  lives: number;
+  loseLife: () => void;
   nextLevel: (score: number) => void;
   gameOver: (score: number | undefined) => void;
 };
@@ -15,6 +17,8 @@ const EvaluatingScreen: React.FC<Props> = ({
   score,
   lastLevel,
   roundState,
+  lives,
+  loseLife,
   nextLevel,
   gameOver,
 }) => {
@@ -34,9 +38,12 @@ const EvaluatingScreen: React.FC<Props> = ({
   const timer = React.useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    if (selectedValue !== "X") {
+    if (lives > 1) {
       timer.current = setTimeout(() => {
         nextLevel(roundScore);
+        if(selectedValue === "X") {
+          loseLife();
+        }
       }, 10000);
     }
 
@@ -45,7 +52,7 @@ const EvaluatingScreen: React.FC<Props> = ({
         clearInterval(timer.current);
       }
     };
-  }, [selectedValue, nextLevel, roundScore, timer]);
+  }, [selectedValue, nextLevel, roundScore, timer, loseLife, lives]);
 
   const _bankAndQuit = () => {
     if (timer.current) clearTimeout(timer.current);
@@ -54,8 +61,12 @@ const EvaluatingScreen: React.FC<Props> = ({
 
   return (
     <div className="flex flex-col gap-y-4 items-center">
-      {selectedValue === "X" ? (
+      {selectedValue === "X" && lives === 1 ? (
         <h1 className="text-red-400 text-lg font-semibold">You lost...</h1>
+      ) : selectedValue === "X" ? (
+        <h1 className="text-yellow-400 text-lg font-semibold">
+          {lastLevel ? "You won!" : "You've been hurt!"}
+        </h1>  
       ) : (
         <h1 className="text-green-400 text-lg font-semibold">
           {lastLevel ? "You won!" : "You survived!"}
@@ -70,11 +81,13 @@ const EvaluatingScreen: React.FC<Props> = ({
             half for higher rewards!
           </p>
         </>
+      ) : lives === 1 ? (
+        <p>You lost half of your current score, your final score is: <span className="font-bold font-mono">{showNumber(score !== 0 ? score / 2 : 0)}</span></p>
       ) : (
-        <p>You lost half of your current score, your final score is: <span className="font-bold font-mono">{showNumber(score / 2)}</span></p>
+        <p>You have lost a life, but you have {lives -1} remaining...</p>
       )}
       <hr />
-      {selectedValue === "X" ? (
+      {selectedValue === "X" && lives === 1 ? (
         <Button variant="destructive" onClick={() => gameOver(undefined)}>
           End Game
         </Button>

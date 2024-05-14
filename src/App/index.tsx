@@ -17,6 +17,7 @@ const App: React.FC = () => {
   const [gameState, setGameState] = React.useState(GAME_STATE.MENU);
   const [score, setScore] = React.useState(0);
   const [level, setLevel] = React.useState(0);
+  const [lives, setLives] = React.useState(3);
   const [roundState, setRoundState] = React.useState<RoundState>();
   const [currentPlayer, setCurrentPlayer] = React.useState<string>();
   const audio = useMemo(() => new Audio("../../public/home.mp3"), []);
@@ -61,6 +62,8 @@ const App: React.FC = () => {
             lastLevel={level === levels.length - 1}
             roundState={roundState as RoundState}
             nextLevel={_nextLevel}
+            lives={lives}
+            loseLife={_loseLife}
             gameOver={_gameOver}
           />
         );
@@ -93,16 +96,21 @@ const App: React.FC = () => {
     if (incomingScore) {
       saveScore(currentPlayer as string, score + incomingScore);
     } else {
-      saveScore(currentPlayer as string, score * 0.5);
+      saveScore(currentPlayer as string, score ! == 0 ? score  * 0.5 : 0);
     }
     setGameState(GAME_STATE.MENU);
     setScore(0);
     setLevel(0);
+    setLives(3);
     setRoundState(undefined);
   };
 
   const _setCurrentPlayer = (initials: string) => {
     setCurrentPlayer(initials);
+  };
+
+  const _loseLife = () => {
+    setLives((prevState) => prevState - 1);
   };
 
   return (
@@ -115,6 +123,7 @@ const App: React.FC = () => {
                 <th>Player</th>
                 <th>Round</th>
                 <th>Difficulty</th>
+                <th>Remaining Lives</th>
                 <th>Total Score</th>
               </tr>
             </thead>
@@ -123,6 +132,7 @@ const App: React.FC = () => {
                 <td>{currentPlayer}</td>
                 <td>{level + 1}</td>
                 <td>{difficultyLabelMap.get(levels[level])}</td>
+                <td>{lives}/3</td>
                 <td>{showNumber(
               roundState && roundState?.selectedValue !== "X"
                 ? score +

@@ -1,11 +1,11 @@
 import { Difficulty } from "./enums";
 
 export const buttonMap = new Map([
-  [Difficulty.EASY, { buttons: 20, bombs: 1 }], // 5%
-  [Difficulty.MEDIUM, { buttons: 20, bombs: 2 }], // 10%
-  [Difficulty.HARD, { buttons: 10, bombs: 2 }], // 20%
-  [Difficulty.VERY_HARD, { buttons: 12, bombs: 3 }], // 25%
-  [Difficulty.EXTREME, { buttons: 6, bombs: 2 }], // 33%
+  [Difficulty.EASY, { buttons: 20, bombs: 1 }], // 95%
+  [Difficulty.MEDIUM, { buttons: 10, bombs: 1 }], // 90%
+  [Difficulty.HARD, { buttons: 10, bombs: 2 }], // 80%
+  [Difficulty.VERY_HARD, { buttons: 4, bombs: 1 }], // 75%
+  [Difficulty.EXTREME, { buttons: 3, bombs: 1 }], // 66%
   [Difficulty.IMPOSSIBLE, { buttons: 2, bombs: 1 }], // 50%
 ]);
 
