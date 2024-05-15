@@ -1,32 +1,30 @@
+import { SCORE_KEY, rounds } from "../constants";
 import { Difficulty } from "../constants/enums";
-import { buttonMap, multiplierMap, pointsMap } from "../constants/maps";
+import { bonusMap, cardMap, pointsMap } from "../constants/maps";
+import { HighScore } from "../types";
 
 const pickRandomNumber = (min: number, max: number) => {
   return Math.floor(Math.random() * (max - min + 1) + min);
 };
 
-export const generateButtonValues = (
-  difficulty: Difficulty
-): (number | string)[] => {
-  const buttonSet = buttonMap.get(difficulty);
+export const getCards = (difficulty: Difficulty): (number | string)[] => {
+  const cardSet = cardMap.get(difficulty);
   const pointSet = pointsMap.get(difficulty);
-  if (!buttonSet || !pointSet) {
+
+  if (!cardSet || !pointSet) {
     throw new Error("Invalid difficulty");
   }
-  const { buttons, bombs } = buttonSet;
+  const { cards, bombs } = cardSet;
   const { min, max } = pointSet;
 
-  const values: (number | string)[] = new Array(buttons);
+  const values: (number | string)[] = new Array(cards);
 
-  for (let i = 0; i < bombs; i++) {
-    values[i] = "X";
-  }
+  for (let i = 0; i < bombs; i++) values[i] = "X";
 
-  for (let i = bombs; i < buttons; i++) {
+  for (let i = bombs; i < cards; i++) {
     values[i] = pickRandomNumber(min, max);
   }
 
-  // Shuffle the array
   for (let i = values.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [values[i], values[j]] = [values[j], values[i]];
@@ -35,28 +33,26 @@ export const generateButtonValues = (
   return values;
 };
 
-export const generateMultiplier = (difficulty: Difficulty): number | null => {
+export const getBonus = (difficulty: Difficulty): number | null => {
   const chance = Math.random();
 
-  if (chance <= 0.5) {
-    return null;
-  }
+  if (chance <= 0.5) return null;
 
-  const multiplierSet = multiplierMap.get(difficulty);
+  const bonusSet = bonusMap.get(difficulty);
 
-  if (!multiplierSet) {
+  if (!bonusSet) {
     throw new Error("Invalid difficulty");
   }
 
-  const { min, max } = multiplierSet;
+  const { min, max } = bonusSet;
   return pickRandomNumber(min, max);
 };
 
 export const getScore = (
   selectedValue: number,
-  multiplier: number | null
+  bonus: number | null
 ): number => {
-  return multiplier ? selectedValue * multiplier : selectedValue;
+  return bonus ? selectedValue * bonus : selectedValue;
 };
 
 export const showNumber = (number: number): string => {
@@ -64,8 +60,6 @@ export const showNumber = (number: number): string => {
     ? number.toLocaleString()
     : number.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
-
-const SCORE_KEY = "HIGH_SCORES";
 
 export const getHighScore = (): HighScore[] => {
   const rawHighScores = localStorage.getItem(SCORE_KEY);
@@ -87,7 +81,58 @@ export const saveScore = (initials: string, score: number): void => {
   localStorage.setItem(SCORE_KEY, JSON.stringify(highScores));
 };
 
-type HighScore = {
-  initials: string;
-  score: number;
+export const intermissionDialog = (
+  value: string | number,
+  lives: number,
+  round: number
+) => {
+  if (round < rounds.length - 1) {
+    if (value === "X" && lives > 1) {
+      return {
+        color: "#FACC15",
+        title: "You hit a bomb!",
+        message: `You have ${
+          lives - 1
+        } live(s) left. You can either cash out or risk half of your score and continue. What will you do?`,
+      };
+    } else if (value === "X" && lives <= 1) {
+      return {
+        color: "#F87171",
+        title: "You're out!",
+        message: `You're out of lives. It's game over...`,
+      };
+    } else {
+      return {
+        color: "#34D399",
+        title: "You survived!",
+        message: `You can either cash out or risk half of your score and continue. What will you do?`,
+      };
+    }
+  } else {
+    if (value === "X" && lives <= 1) {
+      return {
+        color: "#F87171",
+        title: "You're out!",
+        message: `You're out of lives. It's game over...`,
+      };
+    } else {
+      return {
+        color: "#34D399",
+        title: "You won!",
+        message: `Your luck is outstanding! Try again and see if you can beat your score!`,
+      };
+    }
+  }
+};
+
+export const resolveScore = (
+  prevScore: number,
+  roundScore: number | string | undefined,
+  bonus: number | null | undefined
+) => {
+  if (Number.isInteger(roundScore)) {
+    return prevScore + (roundScore as number) * (bonus || 1);
+  } else {
+    return prevScore;
+  }
 };

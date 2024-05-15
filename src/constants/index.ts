@@ -1,46 +1,32 @@
 import { Difficulty } from "./enums";
 
-// Total possible points: 5850
-export const levels: Difficulty[] = [
-  // 290
-  Difficulty.EASY, // 30
-  Difficulty.EASY, // 30
-  Difficulty.MEDIUM, // 60
-  Difficulty.MEDIUM, // 60
-  Difficulty.HARD, // 100
+export const SCORE_KEY = "HIGH_SCORES";
 
-  // 320
-  Difficulty.EASY, // 30
-  Difficulty.EASY, // 30
-  Difficulty.MEDIUM, // 60
-  Difficulty.HARD, // 100
-  Difficulty.HARD, // 100
-
-  // 470
-  Difficulty.MEDIUM, // 60
-  Difficulty.MEDIUM, // 60
-  Difficulty.HARD, // 100
-  Difficulty.HARD, // 100
-  Difficulty.VERY_HARD, // 150
-
-  // 820
-  Difficulty.MEDIUM, // 60
-  Difficulty.MEDIUM, // 60
-  Difficulty.HARD, // 100
-  Difficulty.VERY_HARD, // 150
-  Difficulty.EXTREME, // 450
-
-  // 950
-  Difficulty.HARD, // 100
-  Difficulty.HARD, // 100
-  Difficulty.VERY_HARD, // 150
-  Difficulty.VERY_HARD, // 150
-  Difficulty.EXTREME, // 450
-
-  /// 3000
-  Difficulty.EXTREME, // 450
-  Difficulty.EXTREME, // 450
-  Difficulty.IMPOSSIBLE, // 700
-  Difficulty.IMPOSSIBLE, // 700
-  Difficulty.IMPOSSIBLE, // 700
+export const rounds: Difficulty[] = [
+  Difficulty.EASY,
+  Difficulty.EASY,
+  Difficulty.MEDIUM,
+  Difficulty.MEDIUM,
+  Difficulty.EASY,
+  Difficulty.EASY,
+  Difficulty.MEDIUM,
+  Difficulty.MEDIUM,
+  Difficulty.HARD,
+  Difficulty.HARD,
+  Difficulty.MEDIUM,
+  Difficulty.MEDIUM,
+  Difficulty.HARD,
+  Difficulty.HARD,
+  Difficulty.VERY_HARD,
+  Difficulty.VERY_HARD,
+  Difficulty.EXTREME,
+  Difficulty.EXTREME,
+  Difficulty.HARD,
+  Difficulty.HARD,
+  Difficulty.VERY_HARD,
+  Difficulty.VERY_HARD,
+  Difficulty.EXTREME,
+  Difficulty.EXTREME,
+  Difficulty.IMPOSSIBLE,
+  Difficulty.IMPOSSIBLE,
 ];

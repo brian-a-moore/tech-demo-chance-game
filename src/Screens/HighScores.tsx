@@ -1,13 +1,19 @@
 import React from "react";
 import { Button } from "../components/Button";
+import { SCREEN } from "../constants/enums";
 import { getHighScore, showNumber } from "../utils";
 
 type Props = {
-  goBack: () => void;
+  changeScreen: (screen: SCREEN) => void;
 };
 
-const HighScoresScreen: React.FC<Props> = ({ goBack }) => {
+const HighScoresScreen: React.FC<Props> = ({ changeScreen }) => {
   const highScores = getHighScore();
+
+  const _goBack = () => {
+    changeScreen(SCREEN.MENU);
+  }
+
   return (
     <div className="flex flex-col gap-y-4 items-center">
       <h1 className='text-lg font-bold'>High Scores</h1>
@@ -22,7 +28,7 @@ const HighScoresScreen: React.FC<Props> = ({ goBack }) => {
         </div>
       ))}
       <hr />
-      <Button variant="transparent" onClick={goBack}>Go Back</Button>
+      <Button variant="transparent" onClick={_goBack}>Main Menu</Button>
     </div>
   );
 };

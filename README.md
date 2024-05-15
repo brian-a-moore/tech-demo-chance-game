@@ -14,6 +14,6 @@ In the root directory, run the following:
 
 As you progress through the rounds, the game becomes riskier. The point values and bonuses increase, but your survival chances decrease (to as low as 50%). After each round, you can decide to "Cash Out" (end the game and keep your current score) or continue playing, risking losing half of your score.
 
-The game consists of 30 rounds in total.
+The game consists of 25 rounds in total.
 
 At the end of the game, if you have a top ten all-time score, it will be saved with the others in local storage on your browser.

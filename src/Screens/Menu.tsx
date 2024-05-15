@@ -1,23 +1,23 @@
 import React from "react";
 import { Button } from "../components/Button";
 import TextInput from "../components/TextInput";
+import { SCREEN } from "../constants/enums";
 
 type Props = {
-  startGame: () => void;
-  seeHighScores: () => void;
-  setCurrentPlayer: (initials: string) => void;
-};
+  changeScreen: (screen: SCREEN) => void;
+  setPlayerName: (player: string) => void;
+}
 
-const MenuScreen: React.FC<Props> = ({
-  startGame,
-  setCurrentPlayer,
-  seeHighScores,
-}) => {
+const MenuScreen: React.FC<Props> = ({ changeScreen, setPlayerName }) => {
   const [initials, setInitials] = React.useState<string>("");
 
   const _startGame = () => {
-    setCurrentPlayer(initials);
-    startGame();
+    setPlayerName(initials);
+    changeScreen(SCREEN.ROUND);
+  };
+
+  const _seeHighScores = () => {
+    changeScreen(SCREEN.HIGH_SCORES);
   };
 
   return (
@@ -40,7 +40,7 @@ const MenuScreen: React.FC<Props> = ({
       </Button>
       </div>
       <div className="scale-[0.75] opacity-60">
-        <Button variant="transparent" onClick={seeHighScores}>
+        <Button variant="transparent" onClick={_seeHighScores}>
           High Scores
         </Button>
       </div>

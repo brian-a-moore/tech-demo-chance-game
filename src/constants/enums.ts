@@ -1,10 +1,10 @@
-export enum GAME_STATE {
+export enum SCREEN {
   HIGH_SCORES,
   MENU,
   START,
-  PLAY_ROUND,
-  EVALUATING,
-  WINNER,
+  ROUND,
+  REVEAL,
+  INTERMISSION,
 }
 
 export enum Difficulty {
