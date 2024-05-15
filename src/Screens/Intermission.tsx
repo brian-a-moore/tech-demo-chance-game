@@ -38,7 +38,7 @@ const IntermissionScreen: React.FC<Props> = ({
 
     timer.current = setTimeout(() => {
       isGameOver ? endGame() : nextRound();
-    }, 10000);
+    }, 7000);
 
     return () => {
       audio.pause();
@@ -112,7 +112,7 @@ const IntermissionScreen: React.FC<Props> = ({
 export default IntermissionScreen;
 
 const CountdownTimer = () => {
-  const [countdown, setCountdown] = React.useState(10);
+  const [countdown, setCountdown] = React.useState(7);
   const timer = React.useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
