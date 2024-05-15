@@ -56,6 +56,7 @@ export const getScore = (
 };
 
 export const showNumber = (number: number): string => {
+  if (isNaN(number)) return "0";
   return Number.isInteger(number)
     ? number.toLocaleString()
     : number.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");

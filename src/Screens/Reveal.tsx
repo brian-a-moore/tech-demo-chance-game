@@ -29,7 +29,7 @@ const RevealScreen: React.FC<Props> = ({ changeScreen, difficulty, roundState })
 
     timer.current = setTimeout(() => {
       changeScreen(SCREEN.INTERMISSION);
-    }, 8000);
+    }, roundState.selectedCard.value === "X" ? 5000 : 8000);
 
     return () => {
       failed.pause();

@@ -3,7 +3,12 @@ import { Button } from "../components/Button";
 import Dialog from "../components/Dialog";
 import { rounds } from "../constants";
 import { GameState, RoundState } from "../types";
-import { getScore, intermissionDialog, resolveScore, showNumber } from "../utils";
+import {
+  getScore,
+  intermissionDialog,
+  resolveScore,
+  showNumber,
+} from "../utils";
 
 type Props = {
   endGame: () => void;
@@ -12,10 +17,17 @@ type Props = {
   roundState: RoundState;
 };
 
-const IntermissionScreen: React.FC<Props> = ({ endGame, gameState, nextRound, roundState }) => {
+const IntermissionScreen: React.FC<Props> = ({
+  endGame,
+  gameState,
+  nextRound,
+  roundState,
+}) => {
   const { bonus, selectedCard } = roundState;
   const roundScore = getScore(selectedCard.value as number, bonus);
-  const isGameOver = (gameState.lives <= 1 && selectedCard.value === "X") || gameState.round >= rounds.length - 1;
+  const isGameOver =
+    (gameState.lives <= 1 && selectedCard.value === "X") ||
+    gameState.round >= rounds.length - 1;
 
   const timer = useRef<NodeJS.Timeout>();
 
@@ -39,33 +51,43 @@ const IntermissionScreen: React.FC<Props> = ({ endGame, gameState, nextRound, ro
     endGame();
   };
 
-  const { color, title, message} = intermissionDialog(selectedCard.value, gameState.lives, gameState.round);
+  const { color, title, message } = intermissionDialog(
+    selectedCard.value,
+    gameState.lives,
+    gameState.round
+  );
 
-  return ( 
+  return (
     <div className="flex flex-col gap-y-4 items-center">
-      <h1 className='text-xl font-bold' style={{ color }}>{title}</h1>
-      {selectedCard.value !== "X" ? (
+      <h1 className="text-xl font-bold" style={{ color }}>
+        {title}
+      </h1>
+      {selectedCard.value !== "X" || gameState.lives > 1 ? (
         <table>
           <thead>
             <tr>
-                          <th>Current Score</th>
-            <th>Round Score</th>
-            <th>{isGameOver ? 'Final' : 'New'} Score</th>
+              <th>Current Score</th>
+              <th>Round Score</th>
+              <th>{isGameOver ? "Final" : "New"} Score</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td>{showNumber(gameState.score)}</td>
               <td>+{showNumber(roundScore)}</td>
-              <td>{showNumber(resolveScore(gameState.score, roundScore, undefined))}</td>
+              <td>
+                {showNumber(
+                  resolveScore(gameState.score, roundScore, undefined)
+                )}
+              </td>
             </tr>
           </tbody>
         </table>
-      ): (
+      ) : (
         <table>
           <thead>
             <tr>
-               <th>Final Score</th>
+              <th>Final Score</th>
             </tr>
           </thead>
           <tbody>
@@ -77,10 +99,12 @@ const IntermissionScreen: React.FC<Props> = ({ endGame, gameState, nextRound, ro
       )}
       <Dialog>{message}</Dialog>
       {!isGameOver && <Button onClick={_cashOut}>Cash Out</Button>}
-      {!isGameOver && <>
-        <hr />
-        <CountdownTimer />
-      </>}
+      {!isGameOver && (
+        <>
+          <hr />
+          <CountdownTimer />
+        </>
+      )}
     </div>
   );
 };
