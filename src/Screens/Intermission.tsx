@@ -32,7 +32,7 @@ const IntermissionScreen: React.FC<Props> = ({
   const timer = useRef<NodeJS.Timeout>();
 
   useEffect(() => {
-    const audio = new Audio("../../public/intermission.mp3");
+    const audio = new Audio("../../intermission.mp3");
     audio.loop = true;
     audio.play();
 

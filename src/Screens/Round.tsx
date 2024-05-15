@@ -32,7 +32,7 @@ const RoundScreen: React.FC<Props> = ({
     React.useState<PlayState>(DEFAULT_PLAY_STATE);
 
   useEffect(() => {
-    const audio = new Audio("../../public/round.mp3");
+    const audio = new Audio("../../round.mp3");
     audio.play();
 
     return () => {

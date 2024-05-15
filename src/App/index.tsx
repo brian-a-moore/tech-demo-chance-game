@@ -20,7 +20,7 @@ const App: React.FC = () => {
   const [gameState, setGameState] = React.useState<GameState>(DEFAULT_GAME_STATE);
   const [roundState, setRoundState] = React.useState<RoundState>();
 
-  const audio = useMemo(() => new Audio("../../public/home.mp3"), []);
+  const audio = useMemo(() => new Audio("../../home.mp3"), []);
 
   useEffect(() => {
     audio.loop = true;

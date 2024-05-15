@@ -16,8 +16,8 @@ const RevealScreen: React.FC<Props> = ({ changeScreen, difficulty, roundState })
   const timer = useRef<NodeJS.Timeout>();
 
   useEffect(() => {
-    const survived = new Audio("../../public/survived.mp3");
-    const failed = new Audio("../../public/failed.mp3");
+    const survived = new Audio("../../survived.mp3");
+    const failed = new Audio("../../failed.mp3");
 
     survived.volume = 0.6;
 
