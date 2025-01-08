@@ -1,6 +1,6 @@
-# What Will You Risk?
+# Chance Game
 
-This is a simple yet engaging game I created during my leisure time. It's not designed to showcase any specific skill, but it's built using Vite, React, Typescript, and Tailwind. I also composed the music for it.
+This application is designed to showcase a foundational understand of React, styling and working with multimedia and state management. It is an interactive game and is available to demo via Vercel.
 
 ## Run the Game
 
